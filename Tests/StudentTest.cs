@@ -61,6 +61,63 @@ namespace Registrar
     }
 
 
+
+
+    [Fact]
+   public void TestCourse_AddsCourseToStudent_CourseList()
+   {
+     Student testStudent = new Student("Jim", "10-10-2010");
+     testStudent.Save();
+
+     Course testCourse = new Course("Bio 111", "8am", 4);
+     testCourse.Save();
+
+     testStudent.AddCourse(testCourse);
+
+     List<Course> result = testStudent.GetCourses();
+     List<Course> testList = new List<Course>{testCourse};
+
+     Assert.Equal(testList, result);
+   }
+
+   [Fact]
+   public void TestCourse_ReturnsAllStudentCourses_CourseList()
+   {
+     Student testStudent = new Student("Jim", "10-10-2010");
+     testStudent.Save();
+
+     Course testCourse1 = new Course("Bio 111", "8am", 4);
+     testCourse1.Save();
+
+     Course testCourse2 = new Course("Paper 122", "6am", 1);
+     testCourse2.Save();
+
+     testStudent.AddCourse(testCourse1);
+     List<Course> result = testStudent.GetCourses();
+     List<Course> testList = new List<Course> {testCourse1};
+
+     Assert.Equal(testList, result);
+   }
+   [Fact]
+   public void Delete_DeletesStudentAssociationsFromDataBase_StudentList()
+   {
+     Course testCourse = new Course("Bio 111", "8am", 4);
+     testCourse.Save();
+
+     Student testStudent = new Student("Jim", "10-10-2010");
+     testStudent.Save();
+
+     testStudent.AddCourse(testCourse);
+     testStudent.Delete();
+
+     List<Student> result = testCourse.GetStudents();
+     List<Student> test = new List<Student>{};
+
+     Assert.Equal(test, result);
+   }
+
+
+
     public void Dispose()
     {
       Student.DeleteAll();
