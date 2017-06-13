@@ -84,5 +84,75 @@ namespace Registrar.Objects
       return allStudents;
     }
 
+    public void Save()
+    {
+      SqlConnection conn = DB.Connection();
+      conn.Open();
+
+      SqlCommand cmd = new SqlCommand("INSERT INTO students (name, doe) OUTPUT INSERTED.id VALUES (@StudentName, @StudentDoe)", conn);
+
+      SqlParameter nameParameter = new SqlParameter();
+      nameParameter.ParameterName = "@StudentName";
+      nameParameter.Value = this.GetName();
+
+      SqlParameter doeParameter = new SqlParameter();
+      doeParameter.ParameterName = "@Studentdoe";
+      doeParameter.Value = this.GetDoe();
+
+      cmd.Parameters.Add(nameParameter);
+      cmd.Parameters.Add(doeParameter);
+      SqlDataReader rdr = cmd.ExecuteReader();
+
+      while(rdr.Read())
+      {
+        this._id = rdr.GetInt32(0);
+      }
+      if (rdr != null)
+      {
+        rdr.Close();
+      }
+      if(conn != null)
+      {
+        conn.Close();
+      }
+    }
+
+    public static Student Find(int id)
+    {
+      SqlConnection conn = DB.Connection();
+      conn.Open();
+
+      SqlCommand cmd = new SqlCommand("SELECT * FROM students WHERE id = @StudentId", conn);
+      SqlParameter airlineIdParameter = new SqlParameter();
+      airlineIdParameter.ParameterName = "@StudentId";
+      airlineIdParameter.Value = id.ToString();
+      cmd.Parameters.Add(airlineIdParameter);
+      SqlDataReader rdr = cmd.ExecuteReader();
+
+      int foundStudentId = 0;
+      string foundStudentName = null;
+      string foundStudentDoe = null;
+
+      while(rdr.Read())
+      {
+        foundStudentId = rdr.GetInt32(0);
+        foundStudentName = rdr.GetString(1);
+        foundStudentDoe = rdr.GetString(2);
+      }
+      Student foundStudent = new Student(foundStudentName, foundStudentDoe, foundStudentId);
+
+      if (rdr != null)
+     {
+       rdr.Close();
+     }
+     if (conn != null)
+     {
+       conn.Close();
+     }
+
+     return foundStudent;
+    }
+
+
   }
 }

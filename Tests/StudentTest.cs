@@ -30,10 +30,41 @@ namespace Registrar
       Assert.Equal(firstStudent, secondStudent);
     }
 
+    [Fact]
+    public void Test_Save_ToStudentDatabase()
+    {
+      Student testStudent = new Student("Jim", "10-10-2010");
+      testStudent.Save();
+
+      List<Student> result = Student.GetAll();
+      List<Student> testList = new List<Student>{testStudent};
+      Assert.Equal(testList, result);
+    }
+
+    [Fact]
+    public void Test_Save_AssignsIdToObject()
+    {
+     Student testStudent = new Student("Jim", "10-10-2010");
+      testStudent.Save();
+      int testId = testStudent.GetId();
+      int savedStudentId = Student.GetAll()[0].GetId();
+      Assert.Equal(testId, savedStudentId);
+    }
+
+    [Fact]
+    public void Test_Find_FindsStudentInDatabase()
+    {
+     Student testStudent = new Student("Jim", "10-10-2010");
+     testStudent.Save();
+     Student foundStudent = Student.Find(testStudent.GetId());
+     Assert.Equal(testStudent, foundStudent);
+    }
+
 
     public void Dispose()
     {
       Student.DeleteAll();
+      Course.DeleteAll();
     }
   }
 }
