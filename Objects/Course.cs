@@ -244,8 +244,5 @@ namespace Registrar.Objects
       }
       return students;
     }
-
-
-
   }
 }

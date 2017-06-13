@@ -153,8 +153,6 @@ namespace Registrar.Objects
      return foundStudent;
     }
 
-
-
     public void AddCourse(Course newCourse)
     {
       SqlConnection conn = DB.Connection();
@@ -178,54 +176,35 @@ namespace Registrar.Objects
         conn.Close();
       }
     }
+
     public List<Course> GetCourses()
     {
       SqlConnection conn = DB.Connection();
       conn.Open();
 
-      SqlCommand cmd = new SqlCommand("SELECT course_id FROM student_courses WHERE student_id = @StudentId;", conn);
+      SqlCommand cmd = new SqlCommand("SELECT courses.* FROM students JOIN student_courses ON (student_id = student_courses.student_id) JOIN courses ON (student_courses.course_id = courses.id) WHERE students.id = @studentId;", conn);
       SqlParameter studentIdParameter = new SqlParameter();
       studentIdParameter.ParameterName = "@StudentId";
       studentIdParameter.Value = this.GetId();
+
       cmd.Parameters.Add(studentIdParameter);
 
       SqlDataReader rdr = cmd.ExecuteReader();
 
-      List<int> courseIds = new List<int> {};
+      List<Course> courses = new List<Course> {};
+
       while(rdr.Read())
       {
-        int courseId = rdr.GetInt32(0);
-        courseIds.Add(courseId);
+        int thisCourseId = rdr.GetInt32(0);
+        string courseName = rdr.GetString(1);
+        string courseTime = rdr.GetString(2);
+        int courseCredit = rdr.GetInt32(3);
+        Course foundCourse = new Course(courseName, courseTime, courseCredit, thisCourseId);
+        courses.Add(foundCourse);
       }
       if (rdr != null)
       {
         rdr.Close();
-      }
-
-      List<Course> courses = new List<Course> {};
-      foreach (int courseId in courseIds)
-      {
-        SqlCommand courseQuery = new SqlCommand("SELECT * FROM courses WHERE id = @CourseId;", conn);
-
-        SqlParameter courseIdParameter = new SqlParameter();
-        courseIdParameter.ParameterName = "@CourseId";
-        courseIdParameter.Value = courseId;
-        courseQuery.Parameters.Add(courseIdParameter);
-
-        SqlDataReader queryReader = courseQuery.ExecuteReader();
-        while(queryReader.Read())
-        {
-              int thisCourseId = queryReader.GetInt32(0);
-              string courseName = queryReader.GetString(1);
-              string courseTime = queryReader.GetString(2);
-              int courseCredit = queryReader.GetInt32(3);
-              Course foundCourse = new Course(courseName, courseTime, courseCredit, thisCourseId);
-              courses.Add(foundCourse);
-        }
-        if (queryReader != null)
-        {
-          queryReader.Close();
-        }
       }
       if (conn != null)
       {
@@ -233,7 +212,6 @@ namespace Registrar.Objects
       }
       return courses;
     }
-
 
     public void Delete()
     {
