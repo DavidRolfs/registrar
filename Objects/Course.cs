@@ -229,7 +229,7 @@ namespace Registrar.Objects
         {
           int thisStudentId = rdr.GetInt32(0);
           string studentName = rdr.GetString(1);
-          string studentDoe = rdr.GetString(2);
+          DateTime studentDoe = rdr.GetDateTime(2);
           Student foundStudent = new Student(studentName, studentDoe, thisStudentId);
           students.Add(foundStudent);
         }

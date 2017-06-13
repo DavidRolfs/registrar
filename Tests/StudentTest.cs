@@ -25,15 +25,15 @@ namespace Registrar
     [Fact]
     public void Test_Equal_ReturnsTrueIfStudentsAreTheSame()
     {
-      Student firstStudent = new Student("Jim", "10-10-2010");
-      Student secondStudent = new Student("Jim", "10-10-2010");
+      Student firstStudent = new Student("Jim", new DateTime(2011, 12, 20));
+      Student secondStudent = new Student("Jim", new DateTime(2011, 12, 20));
       Assert.Equal(firstStudent, secondStudent);
     }
 
     [Fact]
     public void Test_Save_ToStudentDatabase()
     {
-      Student testStudent = new Student("Jim", "10-10-2010");
+      Student testStudent = new Student("Jim", new DateTime(2011, 12, 20));
       testStudent.Save();
 
       List<Student> result = Student.GetAll();
@@ -44,7 +44,7 @@ namespace Registrar
     [Fact]
     public void Test_Save_AssignsIdToObject()
     {
-     Student testStudent = new Student("Jim", "10-10-2010");
+     Student testStudent = new Student("Jim", new DateTime(2011, 12, 20));
       testStudent.Save();
       int testId = testStudent.GetId();
       int savedStudentId = Student.GetAll()[0].GetId();
@@ -54,7 +54,7 @@ namespace Registrar
     [Fact]
     public void Test_Find_FindsStudentInDatabase()
     {
-     Student testStudent = new Student("Jim", "10-10-2010");
+     Student testStudent = new Student("Jim", new DateTime(2011, 12, 20));
      testStudent.Save();
      Student foundStudent = Student.Find(testStudent.GetId());
      Assert.Equal(testStudent, foundStudent);
@@ -66,7 +66,7 @@ namespace Registrar
     [Fact]
    public void TestCourse_AddsCourseToStudent_CourseList()
    {
-     Student testStudent = new Student("Jim", "10-10-2010");
+     Student testStudent = new Student("Jim", new DateTime(2011, 12, 20));
      testStudent.Save();
 
      Course testCourse = new Course("Bio 111", "8am", 4);
@@ -83,7 +83,7 @@ namespace Registrar
    [Fact]
    public void TestCourse_ReturnsAllStudentCourses_CourseList()
    {
-     Student testStudent = new Student("Jim", "10-10-2010");
+     Student testStudent = new Student("Jim", new DateTime(2011, 12, 20));
      testStudent.Save();
 
      Course testCourse1 = new Course("Bio 111", "8am", 4);
@@ -104,7 +104,7 @@ namespace Registrar
      Course testCourse = new Course("Bio 111", "8am", 4);
      testCourse.Save();
 
-     Student testStudent = new Student("Jim", "10-10-2010");
+     Student testStudent = new Student("Jim", new DateTime(2011, 12, 20));
      testStudent.Save();
 
      testStudent.AddCourse(testCourse);

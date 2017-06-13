@@ -69,7 +69,7 @@ namespace Registrar
      Course testCourse = new Course("Bio 111", "8am", 4);
      testCourse.Save();
 
-     Student testStudent = new Student("Jim", "10-10-2010");
+     Student testStudent = new Student("Jim", new DateTime(2011, 12, 20));
      testStudent.Save();
 
      testCourse.AddStudent(testStudent);
@@ -86,10 +86,10 @@ namespace Registrar
      Course testCourse = new Course("Bio 111", "8am", 4);
      testCourse.Save();
 
-     Student testStudent1 = new Student("Jim", "10-10-2010");
+     Student testStudent1 = new Student("Jim", new DateTime(2011, 12, 20));
      testStudent1.Save();
 
-     Student testStudent2 = new Student("Jimmy", "10-11-2011");
+     Student testStudent2 = new Student("Jimbo", new DateTime(2011, 12, 20));
      testStudent2.Save();
 
      testCourse.AddStudent(testStudent1);
@@ -102,7 +102,7 @@ namespace Registrar
    [Fact]
    public void Delete_DeletesCourseAssociationsFromDataBase_CourseList()
    {
-     Student testStudent = new Student("Jim", "10-10-2010");
+     Student testStudent = new Student("Jim", new DateTime(2011, 12, 20));
      testStudent.Save();
 
      Course testCourse = new Course("Bio 111", "8am", 4);

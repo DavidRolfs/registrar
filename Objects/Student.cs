@@ -7,10 +7,10 @@ namespace Registrar.Objects
   public class Student
   {
     private string _name;
-    private string _doe;
+    private DateTime _doe;
     private int _id;
 
-    public Student(string Name, string Doe, int Id = 0)
+    public Student(string Name, DateTime Doe, int Id = 0)
     {
       _name = Name;
       _doe = Doe;
@@ -25,7 +25,7 @@ namespace Registrar.Objects
     {
       return _name;
     }
-    public string GetDoe()
+    public DateTime GetDoe()
     {
       return _doe;
     }
@@ -69,7 +69,7 @@ namespace Registrar.Objects
       {
         int studentId = rdr.GetInt32(0);
         string studentName = rdr.GetString(1);
-        string studentDoe = rdr.GetString(2);
+        DateTime studentDoe = rdr.GetDateTime(2);
         Student newStudent = new Student(studentName, studentDoe, studentId);
         allStudents.Add(newStudent);
       }
@@ -131,13 +131,13 @@ namespace Registrar.Objects
 
       int foundStudentId = 0;
       string foundStudentName = null;
-      string foundStudentDoe = null;
+      DateTime foundStudentDoe = default(DateTime);
 
       while(rdr.Read())
       {
         foundStudentId = rdr.GetInt32(0);
         foundStudentName = rdr.GetString(1);
-        foundStudentDoe = rdr.GetString(2);
+        foundStudentDoe = rdr.GetDateTime(2);
       }
       Student foundStudent = new Student(foundStudentName, foundStudentDoe, foundStudentId);
 
