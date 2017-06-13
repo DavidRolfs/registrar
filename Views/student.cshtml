@@ -1,0 +1,26 @@
+<h1>Registrar</h1>
+<h2>Student: @Model["student"].GetName()</h2>
+<hr />
+@if (@Model["studentCourse"].Count != 0)
+{
+  <h4>This students has these courses:</h4>
+  <ul>
+    @foreach (var course in @Model["studentCourse"])
+    {
+      <li>@course.GetName()</li>
+    }
+  </ul>
+}
+<h4>Add a Course to this student:</h4>
+<form action='/students/add_course' method='post'>
+  <input id='student-id' name='student-id' type='hidden' value='@Model["student"].GetId()'>
+  <label for='course-id'>Select a Course</label>
+  <select id='course-id' name='course-id' type='text'>
+    @foreach (var course in @Model["allCourses"])
+    {
+      <option value='@course.GetId()'>@course.GetName(), @course.GetTime()</option>
+    }
+  </select>
+  <button type='submit'>Add</button>
+</form>
+<p><a href="/">Return to Main Page</a></p>

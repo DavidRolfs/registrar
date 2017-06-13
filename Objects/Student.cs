@@ -182,7 +182,7 @@ namespace Registrar.Objects
       SqlConnection conn = DB.Connection();
       conn.Open();
 
-      SqlCommand cmd = new SqlCommand("SELECT courses.* FROM students JOIN student_courses ON (student_id = student_courses.student_id) JOIN courses ON (student_courses.course_id = courses.id) WHERE students.id = @studentId;", conn);
+      SqlCommand cmd = new SqlCommand("SELECT courses.* FROM students JOIN student_courses ON (students.id = student_courses.student_id) JOIN courses ON (student_courses.course_id = courses.id) WHERE students.id = @studentId;", conn);
       SqlParameter studentIdParameter = new SqlParameter();
       studentIdParameter.ParameterName = "@StudentId";
       studentIdParameter.Value = this.GetId();
