@@ -6,7 +6,7 @@
   <ul>
     @foreach (var student in Model)
     {
-      <li><a href="/student/@student.GetId()">@student.GetName()</a></li>
+      <li><a href="/student/@student.GetId()">@student.GetName(), @student.GetDoe().ToString("dd/MM/yyyy")</a></li>
     }
   </ul>
 }

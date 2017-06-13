@@ -75,6 +75,16 @@ namespace Registrar
         return View["success.cshtml"];
       };
 
+      Get["/student/delete/{id}"] = parameters => {
+        Student chosenStudent = Student.Find(parameters.id);
+        return View["student_delete.cshtml", chosenStudent];
+      };
+
+      Delete["/student/delete/{id}"] = parameters => {
+        Student chosenStudent = Student.Find(parameters.id);
+        chosenStudent.Delete();
+        return View["success.cshtml"];
+      };
 
     }
   }

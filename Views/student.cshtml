@@ -7,7 +7,8 @@
   <ul>
     @foreach (var course in @Model["studentCourse"])
     {
-      <li>@course.GetName()</li>
+      <li>@course.GetName(), @course.GetTime()</li>
+
     }
   </ul>
 }
